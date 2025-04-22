@@ -1,6 +1,6 @@
-import json
 from abc import abstractmethod
-import cliwrapper
+from binutils import binutilwrapper
+
 
 class Controller:
     def __init__(self, name: str):
@@ -16,7 +16,7 @@ class Controller:
 class CliDpkgController(Controller):
     def __init__(self):
         super().__init__("dpkg")
-        self.dpkg = cliwrapper.CliWrapperDpkg()
+        self.dpkg = cliwrapper.BinUtilDpkg()
 
     def internal_run(self, path: str, query: str):
         if path == "/list":

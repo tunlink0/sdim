@@ -1,14 +1,9 @@
 import subprocess
-import cliparser
+from sioparser.listparser import ListParser
 import dictobject
+from binutils.binutilwrapper import BinUtilWrapper
 
-
-class CliWrapper:
-    def __init__(self, cli_name):
-        self.cli_name = cli_name
-
-
-class CliDpkgPackageItem(dictobject.DictObject):
+class BinUtilDpkgItem(dictobject.DictObject):
     def __init__(self, states: str, name: str, version: str, arch: str, description: str):
         self.name = name
         self.version = version
@@ -30,14 +25,14 @@ class CliDpkgPackageItem(dictobject.DictObject):
         }
 
 
-class CliWrapperDpkg(CliWrapper):
+class BinUtilDpkg(BinUtilWrapper):
     def __init__(self):
         super().__init__("dpkg")
 
     def list(self):
         out = subprocess.run(["dpkg", "--list"], capture_output=True)
         strout = "".join([chr(int(b)) for b in out.stdout])
-        clp = cliparser.CliListParser(
+        clp = ListParser(
             r"^(?P<states>\w\w[\w ])\s+"
             r"(?P<name>\S+)\s+"
             r"(?P<version>\S+)\s+"
@@ -46,6 +41,6 @@ class CliWrapperDpkg(CliWrapper):
 
         l = clp(strout.split("\n"))
         packages = []
-        for i in l:
-            packages.append(CliDpkgPackageItem(*i[0]))
+        for i in l.tuple:
+            packages.append(BinUtilDpkgItem(*i[0]))
         return packages

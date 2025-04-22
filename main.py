@@ -1,7 +1,4 @@
 # This is a sample Python script.
-import subprocess
-
-import cliwrapper
 
 
 # Press Shift+F10 to execute it or replace it with your code.

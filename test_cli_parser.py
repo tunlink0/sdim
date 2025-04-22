@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import cliparser
+from sioparser.listparser import ListParser
 
 
 class Testcli_section_parser(TestCase):
@@ -15,7 +15,7 @@ ii  ubuntu-advantage-tools        30~22.04                                amd64 
 ii  ubuntu-wsl                    1.481.1                                 amd64        Ubuntu on Windows tools - Windows Subsystem for Linux integration
 ii  update-manager-core           1:22.04.10                              all          manage release upgrades
         """
-        clp = cli_parser.CliListParser(
+        clp = ListParser(
             r"^(?P<states>\w\w[\w ])\s+"
             r"(?P<name>[\w-]+)\s+"
             r"(?P<version>[\d\/~\:\.\+]+)\s+"
@@ -24,7 +24,7 @@ ii  update-manager-core           1:22.04.10                              all   
 
 
         out = clp(str.split("\n"))
-        self.assertTrue(len(out) == 3)
+        self.assertTrue(len(out.tuple) == 3)
 
 
 
