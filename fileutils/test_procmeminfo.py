@@ -4,4 +4,7 @@ from .procmeminfo import FileUtilProcMemInfo
 class TestFileUtilProcMemInfo(TestCase):
     def test_list(self):
         pmi = FileUtilProcMemInfo()
-        pmi.list()
+        ppmi = pmi.list()
+        self.assertTrue(ppmi.mem_free > 0)
+        self.assertTrue(ppmi.mem_total > 0)
+
