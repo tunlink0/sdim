@@ -28,5 +28,7 @@ class TestRouter(TestCase):
         print(response_success_list(o0))
         o1 = r.run_route(uri.Uri("sdim://environment/memory"))
         print(response_success_list(o1))
-        o2 = r.run_route(uri.Uri("sdim://environment/all"))
+        o2 = r.run_route(uri.Uri("sdim://environment/version"))
         print(response_success_list(o2))
+        oall = r.run_route(uri.Uri("sdim://environment/all"))
+        print(response_success_list(oall))

@@ -3,6 +3,7 @@ from binutils import binutilwrapper
 from binutils.dpkg import BinUtilDpkg
 from fileutils.proccpuinfo import FileUtilProcCpuInfo
 from fileutils.procmeminfo import FileUtilProcMemInfo
+from fileutils.procversion import FileUtilProcVersion
 
 
 class Controller:
@@ -33,14 +34,18 @@ class HostEnvController(Controller):
         super().__init__("hostenv")
         self.procmeminfo = FileUtilProcMemInfo()
         self.proccpuinfo = FileUtilProcCpuInfo()
+        self.procversion = FileUtilProcVersion()
 
     def internal_run(self, path: str, query: str):
         if path == "/memory":
             return self.procmeminfo.list()
         if path == "/cpu":
             return self.proccpuinfo.list()
+        if path == "/version":
+            return self.procversion.list()
         elif path == "/all":
             return {
                 "memory": self.procmeminfo.list(),
-                "cpu": self.proccpuinfo.list()
+                "cpu": self.proccpuinfo.list(),
+                "version": self.procversion.list()
             }
