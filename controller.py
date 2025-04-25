@@ -41,5 +41,6 @@ class HostEnvController(Controller):
             return self.proccpuinfo.list()
         elif path == "/all":
             return {
-             "memory": self.procmeminfo.list(),
+                "memory": self.procmeminfo.list(),
+                "cpu": self.proccpuinfo.list()
             }

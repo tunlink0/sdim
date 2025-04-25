@@ -24,7 +24,8 @@ class TestRouter(TestCase):
 
     def test_run_route_environment(self):
         r = self.build_routes()
-        r.run_route(uri.Uri("sdim://environment/cpu"))
+        o0 = r.run_route(uri.Uri("sdim://environment/cpu"))
+        print(response_success_list(o0))
         o1 = r.run_route(uri.Uri("sdim://environment/memory"))
         print(response_success_list(o1))
         o2 = r.run_route(uri.Uri("sdim://environment/all"))

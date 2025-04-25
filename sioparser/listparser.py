@@ -9,8 +9,9 @@ class ItemList(object):
     def to_dict(self):
         d = {}
         for t in self.tuple:
-            k, v = t[0]
-            d[k] = v
+            key:str = t[0][0]
+            val:str = t[0][1]
+            d[key.rstrip().replace(" ", "_")] = val.rstrip()
         return d
 
 
@@ -39,8 +40,6 @@ class ListParser(object):
             o = self.regex_line.findall(it.line())
             if o:
                 out.append(o)
-            # else:
-            #     print(it.line())
             it.next()
         return ItemList(out)
 
