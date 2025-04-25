@@ -1,5 +1,8 @@
 from abc import abstractmethod
 from binutils import binutilwrapper
+from binutils.dpkg import BinUtilDpkg
+from fileutils.proccpuinfo import FileUtilProcCpuInfo
+from fileutils.procmeminfo import FileUtilProcMemInfo
 
 
 class Controller:
@@ -16,7 +19,7 @@ class Controller:
 class CliDpkgController(Controller):
     def __init__(self):
         super().__init__("dpkg")
-        self.dpkg = cliwrapper.BinUtilDpkg()
+        self.dpkg = BinUtilDpkg()
 
     def internal_run(self, path: str, query: str):
         if path == "/list":
@@ -24,3 +27,19 @@ class CliDpkgController(Controller):
 
     def list(self):
         return self.dpkg.list()
+
+class HostEnvController(Controller):
+    def __init__(self):
+        super().__init__("hostenv")
+        self.procmeminfo = FileUtilProcMemInfo()
+        self.proccpuinfo = FileUtilProcCpuInfo()
+
+    def internal_run(self, path: str, query: str):
+        if path == "/memory":
+            return self.procmeminfo.list()
+        if path == "/cpu":
+            return self.proccpuinfo.list()
+        elif path == "/all":
+            return {
+             "memory": self.procmeminfo.list(),
+            }

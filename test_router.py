@@ -12,9 +12,20 @@ class TestRouter(TestCase):
         r.add_route(router.Route(
             "packages", "/list", router.Endpoint(controller.CliDpkgController())
         ))
+        r.add_route(router.Route(
+            "environment", "*", router.Endpoint(controller.HostEnvController())
+        ))
         return r
 
     def test_run_route(self):
         r = self.build_routes()
         out = r.run_route(uri.Uri("sdim://packages/list"))
         print(response_success_list(out))
+
+    def test_run_route_environment(self):
+        r = self.build_routes()
+        r.run_route(uri.Uri("sdim://environment/cpu"))
+        o1 = r.run_route(uri.Uri("sdim://environment/memory"))
+        print(response_success_list(o1))
+        o2 = r.run_route(uri.Uri("sdim://environment/all"))
+        print(response_success_list(o2))

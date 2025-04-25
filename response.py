@@ -1,7 +1,10 @@
 import json
 from dictobject import DictObject
 
-def list_obj_to_dict(l: list[DictObject | list]):
+
+def list_obj_to_dict(l: list[DictObject | list] | DictObject):
+    if isinstance(l, DictObject):
+        return l.to_dict()
     out = []
     for i in l:
         if isinstance(i, list):
@@ -17,11 +20,19 @@ class ResponseCode:
     NotFound = 404,
 
 
-def response_success_list(l: list[object | list]):
+def response_success_list(l: dict):
     return json.dumps({
         "_r": ResponseCode.OK,
-        "_d": list_obj_to_dict(l)
+        "_d": l
     })
+
+
+def response_success_dict(l: dict):
+    return json.dumps({
+        "_r": ResponseCode.OK,
+        "_d": l
+    })
+
 
 def response_error(code: int):
     return json.dumps({

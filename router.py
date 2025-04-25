@@ -26,5 +26,5 @@ class Router:
 
     def run_route(self, uri: uri.Uri):
         for r in self.routes:
-            if r.authority == uri.authority and r.path == uri.path:
+            if r.authority == uri.authority and (r.path == "*" or r.path == uri.path):
                 return r.endpoint.run(uri.path, uri.query_string)

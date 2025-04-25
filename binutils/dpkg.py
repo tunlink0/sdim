@@ -3,28 +3,6 @@ from sioparser.listparser import ListParser
 import dictobject
 from binutils.binutilwrapper import BinUtilWrapper
 
-class BinUtilDpkgItem(dictobject.DictObject):
-    def __init__(self, states: str, name: str, version: str, arch: str, description: str):
-        self.name = name
-        self.version = version
-        self.arch = arch
-        self.description = description
-        self.state_desired = states[0]
-        self.state_current = states[1]
-        self.state_error = states[2]
-
-    def to_dict(self):
-        return {
-            "name": self.name,
-            "version": self.version,
-            "arch": self.arch,
-            "description": self.description,
-            "state_desired": self.state_desired,
-            "state_current": self.state_current,
-            "state_error": self.state_error,
-        }
-
-
 class BinUtilDpkg(BinUtilWrapper):
     def __init__(self):
         super().__init__("dpkg")
@@ -42,5 +20,13 @@ class BinUtilDpkg(BinUtilWrapper):
         l = clp(strout.split("\n"))
         packages = []
         for i in l.tuple:
-            packages.append(BinUtilDpkgItem(*i[0]))
+            packages.append({
+                "state_desired": i[0][0][0],
+                "state_current": i[0][0][1],
+                "state_error": i[0][0][2],
+                "name": i[0][1],
+                "version": i[0][2],
+                "arch": i[0][3],
+                "description": i[0][4],
+            })
         return packages
