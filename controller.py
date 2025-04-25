@@ -1,7 +1,6 @@
 from abc import abstractmethod
 
 import imcache.cache
-from binutils import binutilwrapper
 from binutils.dpkg import BinUtilDpkg
 from fileutils.proccpuinfo import FileUtilProcCpuInfo
 from fileutils.procmeminfo import FileUtilProcMemInfo
@@ -23,13 +22,16 @@ class Controller:
     def run(self, path: str, query: str):
         return self.internal_run(path, query)
 
-    def cache_call(self, fn: CacheFunc):
-        txt = hash(fn)
-        if txt in self.memcache.pages:
-            return self.memcache.pages[txt]
+    def cache_call(self, fn, args: tuple = ()):
+        cfn = CacheFunc(fn, args)
+        txt = hash(cfn)
+        if self.memcache.exists(txt):
+            print("cache hit")
+            return self.memcache.get(txt)
         else:
-            out = fn()
-            self.memcache.pages[txt] = out
+            print("cache miss")
+            out = cfn()
+            self.memcache.add(txt, out)
             return out
 
 class CliDpkgController(Controller):
@@ -39,7 +41,7 @@ class CliDpkgController(Controller):
 
     def internal_run(self, path: str, query: str):
         if path == "/list":
-            return self.cache_call(CacheFunc(self.dpkg.list))
+            return self.cache_call(self.dpkg.list)
 
     def list(self):
         return self.dpkg.list()
@@ -53,14 +55,14 @@ class HostEnvController(Controller):
 
     def internal_run(self, path: str, query: str):
         if path == "/memory":
-            return self.cache_call(CacheFunc(self.procmeminfo.list))
+            return self.cache_call(self.procmeminfo.list)
         if path == "/cpu":
-            return self.cache_call(CacheFunc(self.proccpuinfo.list))
+            return self.cache_call(self.proccpuinfo.list)
         if path == "/version":
-            return self.cache_call(CacheFunc(self.procversion.list))
+            return self.cache_call(self.procversion.list)
         elif path == "/all":
             return {
                 "memory": self.cache_call(CacheFunc(self.procmeminfo.list)),
-                "cpu": self.cache_call(CacheFunc(self.proccpuinfo.list)),
-                "version": self.cache_call(CacheFunc(self.procversion.list))
+                "cpu": self.cache_call(self.proccpuinfo.list),
+                "version": self.cache_call(self.procversion.list)
             }

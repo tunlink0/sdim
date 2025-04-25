@@ -11,11 +11,26 @@ class ImMemCache():
     def __init__(self):
         self.pages = {}
 
-    def add_page(self, page: ImPage):
-        self.pages[page.name] = page
+    def add(self, txt: str, value):
+        self.pages[txt] = [
+                {
+                    "hit": 0
+                },
+                value,
+            ]
 
-    def remove_page(self, name: str):
-        self.pages.pop(name)
+    def remove(self, txt):
+        self.pages.pop(txt)
+
+    def set(self, txt, value):
+        self.pages[txt][1] = value
+
+    def get(self, txt):
+        self.pages[txt][0]["hit"] += 1
+        return self.pages[txt][1]
+
+    def exists(self, txt):
+        return txt in self.pages
 
     def __iter__(self):
         return self.pages
