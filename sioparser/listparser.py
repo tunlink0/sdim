@@ -9,8 +9,8 @@ class ItemList(object):
     def to_dict(self):
         d = {}
         for t in self.tuple:
-            key:str = t[0][0]
-            val:str = t[0][1]
+            key: str = t[0][0]
+            val: str = t[0][1]
             d[key.rstrip().replace(" ", "_")] = val.rstrip()
         return d
 

@@ -29,7 +29,7 @@ class ImMemCache():
         self.pages[txt][0]["hit"] += 1
         return self.pages[txt][1]
 
-    def exists(self, txt):
+    def cached(self, txt):
         return txt in self.pages
 
     def __iter__(self):
@@ -48,7 +48,7 @@ class CacheFunc(object):
         return self.fn(*self.args)
 
     def __hash__(self):
-        return hash(f"{self.fn.__self__.__class__.__name__}{self.args}")
+        return hash(f"{self.fn.__module__}{self.fn.__self__.__class__.__name__}{self.fn.__func__.__name__}{self.args}")
 
 def cache_txt(big: str, small: str = ""):
     return hash(f"{big}{small}")
