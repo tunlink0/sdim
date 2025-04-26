@@ -1,4 +1,4 @@
-import controller
+from controllers import controller
 import uri
 
 

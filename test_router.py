@@ -1,8 +1,8 @@
 from unittest import TestCase
-
-import controller
 import router
 import uri
+from controllers.packagescontroller import PackagesController
+from controllers.environmentcontroller import EnvironmentController
 from response import response_success_list
 
 
@@ -10,10 +10,10 @@ class TestRouter(TestCase):
     def build_routes(self):
         r = router.Router()
         r.add_route(router.Route(
-            "packages", "/list", router.Endpoint(controller.CliDpkgController())
+            "packages", "/list", router.Endpoint(PackagesController())
         ))
         r.add_route(router.Route(
-            "environment", "*", router.Endpoint(controller.HostEnvController())
+            "environment", "*", router.Endpoint(EnvironmentController())
         ))
         return r
 
