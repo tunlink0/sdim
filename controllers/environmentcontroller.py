@@ -7,7 +7,7 @@ from fileutils.procversion import FileUtilProcVersion
 
 class EnvironmentController(Controller):
     def __init__(self):
-        super().__init__("hostenv")
+        super().__init__("environment")
         self.procmeminfo = FileUtilProcMemInfo()
         self.proccpuinfo = FileUtilProcCpuInfo()
         self.procversion = FileUtilProcVersion()

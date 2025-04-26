@@ -4,7 +4,7 @@ from controllers.controller import Controller
 
 class PackagesController(Controller):
     def __init__(self):
-        super().__init__("dpkg")
+        super().__init__("packages")
         self.dpkg = BinUtilDpkg()
 
     def internal_run(self, path: str, query: str):
