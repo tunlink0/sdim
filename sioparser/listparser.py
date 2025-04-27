@@ -65,3 +65,9 @@ class BlockParser(object):
         if len(out) > 0:
             blocks.append(ItemList(out))
         return blocks
+
+
+def build_list_from_console_out(out, regex: str):
+    clp = ListParser(regex)
+    strout = "".join([chr(int(b)) for b in out])
+    return clp(strout.split("\n"))
