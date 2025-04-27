@@ -10,7 +10,7 @@ class TestRouter(TestCase):
     def build_routes(self):
         r = router.Router()
         r.add_route(router.Route(
-            "packages", "/list", router.Endpoint(PackagesController())
+            "packages", "*", router.Endpoint(PackagesController())
         ))
         r.add_route(router.Route(
             "environment", "*", router.Endpoint(EnvironmentController())
@@ -22,6 +22,12 @@ class TestRouter(TestCase):
         out = r.run_route(uri.Uri("sdim://packages/list"))
         print(response_success_list(out))
         out = r.run_route(uri.Uri("sdim://packages/list"))
+        print(response_success_list(out))
+
+    def test_run_packages_update(self):
+        r = self.build_routes()
+        out = r.run_route(uri.Uri("sdim://packages/update"))
+        self.assertTrue(out["return_code"] == 0)
         print(response_success_list(out))
 
     def test_run_route_environment(self):
