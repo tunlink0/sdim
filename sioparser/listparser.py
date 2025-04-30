@@ -1,4 +1,6 @@
 import re
+
+from invoker.invoker import CompletedInvoker
 from .iter import CliIter
 
 
@@ -67,7 +69,6 @@ class BlockParser(object):
         return blocks
 
 
-def build_list_from_console_out(out, regex: str):
+def build_list_from_console_out(out: CompletedInvoker, regex: str):
     clp = ListParser(regex)
-    strout = "".join([chr(int(b)) for b in out])
-    return clp(strout.split("\n"))
+    return clp(out.stdout.split("\n"))

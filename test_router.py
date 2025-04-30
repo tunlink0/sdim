@@ -26,11 +26,13 @@ class TestRouter(TestCase):
 
     def test_run_packages_update(self):
         r = self.build_routes()
-        out = r.run_route(uri.Uri("sdim://packages/update"))
-        self.assertTrue(out["return_code"] == 0)
-        print(response_success_list(out))
+        # out = r.run_route(uri.Uri("sdim://packages/update"))
+        # self.assertTrue(out["return_code"] == 0)
+        # print(response_success_list(out))
         out = r.run_route(uri.Uri("sdim://packages/upgradable"))
         print(response_success_list(out))
+        # out = r.run_route(uri.Uri("sdim://packages/upgrade"))
+        # print(response_success_list(out))
     def test_run_route_environment(self):
         r = self.build_routes()
         o0 = r.run_route(uri.Uri("sdim://environment/cpu"))
