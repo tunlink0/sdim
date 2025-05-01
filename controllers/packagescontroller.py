@@ -16,6 +16,8 @@ class PackagesController(Controller):
             return self.nocache_call(self.aptget.update)
         elif path == "/upgradable":
             return self.nocache_call(self.aptget.list_upgrade)
+        elif path == "/upgrade":
+            return self.nocache_call(self.aptget.upgrade_all)
         else:
             return None
 

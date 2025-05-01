@@ -8,7 +8,7 @@ class Logger():
     logdir: str = "/var/log"
 
     def __init__(self):
-        self.fp = open(f"{self.logdir}/sdim.log", "w+")
+        self.fp = open(f"{self.logdir}/sdim.log", "a")
 
     def log(self, invoker: str, stdout, stderr):
         h1 = time.time()
@@ -25,7 +25,6 @@ class Logger():
                f"{stderr}\n"
                f">>> log:end\n\n"))
         return reference
-
 
 class ImLogger:
     logger = Logger()
