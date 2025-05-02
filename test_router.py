@@ -22,10 +22,8 @@ class TestRouter(TestCase):
         ))
         return r
 
-    def test_run_route(self):
+    def test_run_route_packages_list(self):
         r = self.build_routes()
-        out = r.run_route(uri.Uri("sdim://packages/list"))
-        print(response_success_list(out))
         out = r.run_route(uri.Uri("sdim://packages/list"))
         print(response_success_list(out))
 
